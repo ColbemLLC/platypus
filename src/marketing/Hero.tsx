@@ -1,24 +1,17 @@
 import Link from "next/link";
+import { GradientWave } from "@/packages/ui/GradientWave";
 
-const blob =
-  "absolute will-change-transform motion-reduce:animate-none";
-const glow = (pct: number) =>
-  `radial-gradient(closest-side, color-mix(in oklab, var(--blue) ${pct}%, transparent), transparent)`;
+// Hex copies of our dark tokens (WebGL can't read CSS variables):
+// background, blue, surface, blue, hover, blue. The first is the base, the rest blend in as waves.
+const WAVE_COLORS = ["#121215", "#365ffd", "#19191d", "#365ffd", "#212227", "#365ffd"];
+const WAVE_DEFORM = { incline: 0.5, noiseAmp: 250, noiseFlow: 5 };
 
 export default function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
-      {/* Background: two gradient blobs drifting via CSS transforms only. No JS, no canvas. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className={`${blob} -left-[15%] -top-[45%] h-[110%] w-[65%] animate-drift-a`}
-          style={{ background: glow(40) }}
-        />
-        <div
-          className={`${blob} -right-[10%] top-[5%] h-[90%] w-[55%] animate-drift-b`}
-          style={{ background: glow(22) }}
-        />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-background" />
+        <GradientWave colors={WAVE_COLORS} deform={WAVE_DEFORM} />
+        <div className="absolute inset-x-0 bottom-0 z-10 h-1/3 bg-linear-to-b from-transparent to-background" />
       </div>
 
       <div className="mx-auto max-w-[1100px] px-6 py-28 text-center md:px-10 md:py-40">
