@@ -684,7 +684,7 @@ interface GradientWaveProps {
 }
 
 export function GradientWave({
-  colors = ["#121215", "#365ffd", "#19191d", "#365ffd", "#212227", "#365ffd"],
+  colors = ["#121215", "#365ffd", "#d5d7dd", "#365ffd", "#d5d7dd"],
   isPlaying = true,
   className = "",
   shadowPower = 8,

@@ -2,8 +2,8 @@ import Link from "next/link";
 import { GradientWave } from "@/packages/ui/GradientWave";
 
 // Hex copies of our dark tokens (WebGL can't read CSS variables):
-// background, blue, surface, blue, hover, blue. The first is the base, the rest blend in as waves.
-const WAVE_COLORS = ["#121215", "#365ffd", "#19191d", "#365ffd", "#212227", "#365ffd"];
+// background (base), blue, and the navbar's white (--cta). The rest blend in as waves.
+const WAVE_COLORS = ["#121215", "#365ffd", "#d5d7dd", "#365ffd", "#d5d7dd"];
 const WAVE_DEFORM = { incline: 0.5, noiseAmp: 250, noiseFlow: 5 };
 
 export default function Hero() {
