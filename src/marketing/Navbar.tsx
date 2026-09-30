@@ -29,6 +29,14 @@ const defaultActions = (
 
 // Half-circles hanging from the bar's bottom edge (scalloped lining).
 const scallop = "radial-gradient(circle at 50% 0, #000 5.5px, transparent 6px)";
+const mask = {
+  maskImage: scallop,
+  WebkitMaskImage: scallop,
+  maskSize: "12px 6px",
+  WebkitMaskSize: "12px 6px",
+  maskRepeat: "repeat-x",
+  WebkitMaskRepeat: "repeat-x",
+} as const;
 
 export default function Navbar({ brand = "Colbe", actions = defaultActions }: Props) {
   return (
@@ -46,18 +54,9 @@ export default function Navbar({ brand = "Colbe", actions = defaultActions }: Pr
         <div className="flex items-center gap-2">{actions}</div>
       </div>
 
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-full h-1.5 bg-background"
-        style={{
-          maskImage: scallop,
-          WebkitMaskImage: scallop,
-          maskSize: "12px 6px",
-          WebkitMaskSize: "12px 6px",
-          maskRepeat: "repeat-x",
-          WebkitMaskRepeat: "repeat-x",
-        }}
-      />
+      {/* Scalloped lining: a border-colored layer with a bar-colored layer 1px above it leaves a 1px wavy line. */}
+      <div aria-hidden className="absolute inset-x-0 top-full h-1.5 bg-border" style={mask} />
+      <div aria-hidden className="absolute inset-x-0 top-[calc(100%-1px)] h-1.5 bg-background" style={mask} />
     </header>
   );
 }
