@@ -8,13 +8,13 @@ type Props = {
 };
 
 const focus =
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
 const defaultActions = (
   <>
     <Link
       href="/login"
-      className={`rounded-nav px-4 py-2 text-sm font-semibold transition-colors hover:bg-hover ${focus}`}
+      className={`rounded-nav px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/15 ${focus}`}
     >
       Sign in
     </Link>
@@ -27,20 +27,20 @@ const defaultActions = (
   </>
 );
 
-// Half-circles hanging from the bar's bottom edge (scalloped lining).
-const scallop = "radial-gradient(circle at 50% 0, #000 5.5px, transparent 6px)";
+// Shallow ripple hanging from the bar's bottom edge (Arc-style lining).
+const scallop = "radial-gradient(ellipse 7px 5px at 50% 0, #000 98%, transparent 100%)";
 const mask = {
   maskImage: scallop,
   WebkitMaskImage: scallop,
-  maskSize: "12px 6px",
-  WebkitMaskSize: "12px 6px",
+  maskSize: "14px 5px",
+  WebkitMaskSize: "14px 5px",
   maskRepeat: "repeat-x",
   WebkitMaskRepeat: "repeat-x",
 } as const;
 
 export default function Navbar({ brand = "Colbe", actions = defaultActions }: Props) {
   return (
-    <header className="sticky top-0 z-50 bg-background">
+    <header className="sticky top-0 z-50 bg-blue text-white">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-6 md:px-10">
         <Link href="/" className={`flex items-center gap-2.5 rounded-nav ${focus}`}>
           <span className="grid size-8 place-items-center rounded-nav bg-cta text-sm font-bold text-cta-foreground">
@@ -54,9 +54,11 @@ export default function Navbar({ brand = "Colbe", actions = defaultActions }: Pr
         <div className="flex items-center gap-2">{actions}</div>
       </div>
 
-      {/* Scalloped lining: a border-colored layer with a bar-colored layer 1px above it leaves a 1px wavy line. */}
-      <div aria-hidden className="absolute inset-x-0 top-full h-1.5 bg-border" style={mask} />
-      <div aria-hidden className="absolute inset-x-0 top-[calc(100%-1px)] h-1.5 bg-background" style={mask} />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-[calc(100%-1px)] h-[5px] bg-blue"
+        style={mask}
+      />
     </header>
   );
 }
