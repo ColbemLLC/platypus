@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../packages/theme/theme.css";
+@import "./src/packages/theme/theme.css";
 
 body {
   background: var(--background);

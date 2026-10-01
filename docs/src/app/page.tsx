@@ -5,7 +5,8 @@ export default function HomePage() {
     <section className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 py-32 text-center">
       <h1 className="text-5xl font-semibold tracking-tight">Colbe Docs</h1>
       <p className="max-w-xl text-lg text-muted">
-        Guides and reference for guild chat, direct messages and the developer hub.
+        Guides and reference for guild chat, direct messages and the developer
+        hub.
       </p>
       <Link
         href="/getting-started"

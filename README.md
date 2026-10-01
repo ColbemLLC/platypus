@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Start the main app:
 
 ```bash
 npm run dev
@@ -14,7 +14,13 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In a second terminal, start the docs app:
+
+```bash
+bun run dev:docs
+```
+
+The main app is available at [http://localhost:3000](http://localhost:3000) and proxies `/docs` to the docs app on port `3001`. Set `DOCS_URL` to a different docs server URL when needed.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
