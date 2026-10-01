@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "@/packages/loading/loading";
 
 type Props = {
-  brand?: string;
   video?: string;
   /** How long the loader stays up before fading out. */
   durationMs?: number;
@@ -13,7 +12,6 @@ type Props = {
 };
 
 export default function Preloader({
-  brand = "Colbe",
   video = "/mp4-packs/cutscene2.mp4",
   durationMs = 14000,
   maxMs = 20000,
@@ -69,7 +67,7 @@ export default function Preloader({
         phase === "leaving" ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <Loading src={video} brand={brand} />
+      <Loading src={video} />
     </div>
   );
 }
