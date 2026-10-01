@@ -1,7 +1,7 @@
 "use client";
 
-// Soft edge so the video dissolves into the page background (same idea as the hero's fade).
-const feather = "radial-gradient(ellipse at center, #000 55%, transparent 100%)";
+// Top and bottom of the banner dissolve into the page background (same idea as the hero's fade).
+const feather = "linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent)";
 
 type Props = { src?: string };
 
@@ -36,10 +36,10 @@ function Spinner() {
   );
 }
 
-/** Video filling a centered box of half the viewport (scales with the device), spinner in the middle. */
+/** Full-width banner across the center of the screen (scales with the device), spinner in the middle. */
 export default function Loading({ src = "/mp4-packs/cutscene2.mp4" }: Props) {
   return (
-    <div className="relative grid h-[50svh] min-h-48 w-[50vw] min-w-72 place-items-center">
+    <div className="relative grid h-[50svh] min-h-48 w-screen place-items-center">
       <video
         src={src}
         autoPlay
