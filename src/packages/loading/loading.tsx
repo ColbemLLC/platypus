@@ -1,7 +1,7 @@
 "use client";
 
-// Top and bottom of the banner dissolve into the page background (same idea as the hero's fade).
-const feather = "linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent)";
+// The bottom of the banner dissolves into the page background (same idea as the hero's fade).
+const feather = "linear-gradient(to bottom, #000 75%, transparent)";
 
 type Props = { src?: string };
 
@@ -36,10 +36,10 @@ function Spinner() {
   );
 }
 
-/** Full-width banner across the center of the screen (scales with the device), spinner in the middle. */
+/** Video banner pinned to the top (scales with the device). The spinner sits on its own, dead center of the screen. */
 export default function Loading({ src = "/mp4-packs/cutscene2.mp4" }: Props) {
   return (
-    <div className="relative grid h-[50svh] min-h-48 w-screen -translate-y-[12svh] place-items-center">
+    <div className="absolute inset-0">
       <video
         src={src}
         autoPlay
@@ -47,10 +47,12 @@ export default function Loading({ src = "/mp4-packs/cutscene2.mp4" }: Props) {
         loop
         playsInline
         preload="auto"
-        className="absolute inset-0 size-full object-cover"
+        className="absolute inset-x-0 top-0 h-[40svh] min-h-40 w-full object-cover"
         style={{ maskImage: feather, WebkitMaskImage: feather }}
       />
-      <Spinner />
+      <div className="absolute inset-0 grid place-items-center">
+        <Spinner />
+      </div>
     </div>
   );
 }
