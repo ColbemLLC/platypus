@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 // The bottom of the banner dissolves into the page background (same idea as the hero's fade).
 const feather = "linear-gradient(to bottom, #000 75%, transparent)";
 
@@ -38,6 +40,8 @@ function Spinner() {
 
 /** Video banner pinned to the top (scales with the device). The spinner sits on its own, dead center of the screen. */
 export default function Loading({ src = "/mp4-packs/cutscene2.mp4" }: Props) {
+  const [playing, setPlaying] = useState(false);
+
   return (
     <div className="absolute inset-0">
       <video
@@ -47,7 +51,10 @@ export default function Loading({ src = "/mp4-packs/cutscene2.mp4" }: Props) {
         loop
         playsInline
         preload="auto"
-        className="absolute inset-x-0 top-0 h-[40svh] min-h-40 w-full object-cover"
+        onPlaying={() => setPlaying(true)}
+        className={`absolute inset-x-0 top-0 h-[48svh] min-h-40 w-full object-cover transition-opacity duration-700 ${
+          playing ? "opacity-100" : "opacity-0"
+        }`}
         style={{ maskImage: feather, WebkitMaskImage: feather }}
       />
       <div className="absolute inset-0 grid place-items-center">
