@@ -39,7 +39,7 @@ function Spinner() {
 /** Full-width banner across the center of the screen (scales with the device), spinner in the middle. */
 export default function Loading({ src = "/mp4-packs/cutscene2.mp4" }: Props) {
   return (
-    <div className="relative grid h-[50svh] min-h-48 w-screen place-items-center">
+    <div className="relative grid h-[50svh] min-h-48 w-screen -translate-y-[12svh] place-items-center">
       <video
         src={src}
         autoPlay
