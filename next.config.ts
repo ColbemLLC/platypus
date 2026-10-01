@@ -7,12 +7,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.8.19"],
   async rewrites() {
     return [
-      { source: "/docs", destination: `${DOCS_URL}/docs` },
       { source: "/docs/:path*", destination: `${DOCS_URL}/docs/:path*` },
-      {
-        source: "/docs-static/_next/:path+",
-        destination: `${DOCS_URL}/_next/:path+`,
-      },
     ];
   },
 };

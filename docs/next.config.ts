@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  assetPrefix: "/docs-static",
+  basePath: "/docs",
 };
 
 export default nextConfig;
