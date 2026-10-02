@@ -9,7 +9,7 @@ export default function HomePage() {
         hub.
       </p>
       <Link
-        href="/getting-started"
+        href="/docs/getting-started"
         className="rounded-nav bg-cta px-5 py-2.5 text-sm font-medium text-cta-foreground transition-opacity hover:opacity-90"
       >
         Get started
