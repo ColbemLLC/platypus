@@ -1,5 +1,5 @@
-import Login from "@/authorizations/login";
+import Register from "@/authorizations/register";
 
 export default function Page() {
-  return <Login />;
+  return <Register />;
 }
