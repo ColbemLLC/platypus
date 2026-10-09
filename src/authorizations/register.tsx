@@ -67,7 +67,8 @@ const fade = (delay: number) => ({
 
 const button =
   "inline-flex h-12 w-full items-center justify-center gap-2 rounded-nav px-6 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
-const glass = `${button} border border-foreground/25 bg-foreground/10 text-foreground backdrop-blur-md hover:bg-foreground/20`;
+// Template hover: a fill slides in from the left while the label flips color.
+const glass = `${button} relative isolate overflow-hidden border border-foreground/25 bg-foreground/10 text-foreground backdrop-blur-md duration-300 before:absolute before:inset-y-0 before:left-0 before:-z-10 before:w-0 before:bg-foreground before:transition-[width] before:duration-300 before:content-[''] hover:text-background hover:before:w-full`;
 
 type Provider = "google" | "github";
 
