@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 const columns = [
-  { title: "Product", links: [["Download", "/download"], ["Docs", "/docs"], ["Privacy Policy", "/privacy"], ["Terms of Use", "/terms"]] },
-  { title: "Resources", links: [["Forums", "/forums"], ["Developer Hub", "/developers"]] },
+  { title: "Product", links: [["Download", "/download"], ["docs", "/docs"], ["Privacy Policy", "/privacy"], ["Terms of Use", "/terms"]] },
+  { title: "Resources", links: [["Forums", "/forums"], ["Developer Hub", "/developers"], ["Credits", "/credits"]] },
 ] as const;
 
 // Same ripple as the Navbar, flipped so it rises from the footer's top edge.
