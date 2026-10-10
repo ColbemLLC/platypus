@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { type Card, Avatar, Icon, SECTIONS, Skeleton, YOU, container, focusRing, useMe } from "./layout/kit";
-import Shell from "./layout/shell";
 
 const CARDS: Card[] = [...SECTIONS, YOU[0]];
 
@@ -122,12 +121,12 @@ function About() {
 
 export default function Home() {
   return (
-    <Shell>
+    <>
       <main className="min-w-0 flex-1 overflow-y-auto">
         <Hero />
         <JumpIn />
       </main>
       <About />
-    </Shell>
+    </>
   );
 }

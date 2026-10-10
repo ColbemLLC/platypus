@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif, Geist_Mono } from "next/font/google";
+import Shell from "@/src/hearth/layout/shell";
 import { RouteLoader } from "@/packages/ui/RouteLoader";
+import "@/app/globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <RouteLoader />
-        {children}
+        <Shell>{children}</Shell>
       </body>
     </html>
   );
