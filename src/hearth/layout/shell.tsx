@@ -1,7 +1,5 @@
 "use client";
 
-import "../../../app/global.css";
-import "../../../app/layout";
 import { MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 import Downbar from "./downbar";
