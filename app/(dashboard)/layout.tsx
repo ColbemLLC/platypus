@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif, Geist_Mono } from "next/font/google";
 import { RouteLoader } from "@/packages/ui/RouteLoader";
-import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
