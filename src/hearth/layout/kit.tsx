@@ -85,7 +85,7 @@ export const findNav = (pathname: string): NavItem | undefined =>
 export function useMe() {
   const { data } = authClient.useSession();
   const user = data?.user;
-  const extra = (user ?? {}) as { username?: string | null; role?: string | null };
+  const extra = (user ?? {}) as { username?: string | null };
   const name = user?.name ?? "";
   const username = extra.username ?? null;
 
@@ -98,11 +98,10 @@ export function useMe() {
     joined: user?.createdAt
       ? new Date(user.createdAt).toLocaleDateString(undefined, { month: "long", year: "numeric" })
       : null,
-    isAdmin: extra.role === "admin",
   };
 }
 
-export type Group = { id: string; name: string; image: string | null; href: string; isAdmin: boolean };
+export type Group = { id: string; name: string; image: string | null; href: string; isOwner: boolean };
 export type Community = { id: string; name: string; image: string | null; href: string; members: number };
 
 const NONE = { groups: [] as Group[], communities: [] as Community[] };

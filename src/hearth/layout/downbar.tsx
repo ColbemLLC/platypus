@@ -45,7 +45,7 @@ function Tile({
 const Divider = () => <div aria-hidden className="h-8 w-px shrink-0 bg-border" />;
 
 /**
- * Bottom bar, icons centered: section presets | groups | communities (big to small) | plus (admins only).
+ * Bottom bar, nav far left and user far right: section presets | groups | communities (big to small).
  * router.push keeps route URLs out of the browser status bar.
  */
 export default function Downbar() {
@@ -59,15 +59,10 @@ export default function Downbar() {
   const top = sorted[0]?.members || 1;
   const sizeOf = (members: number) => Math.round(MIN + (members / top) * (MAX - MIN));
 
-  // Site admin, or admin of at least one group.
-  const canCreate = me.isAdmin || groups.some((g) => g.isAdmin);
-
   return (
-    <footer className="grid h-[72px] shrink-0 grid-cols-[1fr_minmax(0,auto)_1fr] items-center gap-3 border-t border-border bg-background/80 px-3 backdrop-blur-md">
-      <div />
-
+    <footer className="flex h-[72px] shrink-0 items-center justify-between gap-3 border-t border-border bg-background/80 px-3 backdrop-blur-md">
       <nav aria-label="Primary" className="min-w-0 overflow-x-auto [scrollbar-width:none]">
-        <div className="mx-auto flex h-[72px] w-max items-center gap-2 px-1">
+        <div className="flex h-[72px] w-max items-center gap-2">
           {[OVERVIEW, ...SECTIONS].map((item) => (
             <Tile key={item.href} label={item.label} active={isActive(pathname, item.href)} onClick={() => router.push(item.href)}>
               <Icon name={item.icon} />
@@ -86,20 +81,10 @@ export default function Downbar() {
             <Tile key={c.id} label={`${c.name} · ${c.members} members`} size={sizeOf(c.members)} active={isActive(pathname, c.href)} onClick={() => router.push(c.href)}>
               <Avatar image={c.image} letter={c.name.charAt(0).toUpperCase()} className="size-full rounded-[15px] bg-foreground/10 text-xl" />
             </Tile>
-          ))}
-
-          {canCreate && (
-            <>
-              <Divider />
-              <Tile label="Create a guild" className="border border-dashed border-border hover:border-foreground/50" onClick={() => router.push("/guilds")}>
-                <Icon name="plus" />
-              </Tile>
-            </>
-          )}
-        </div>
+          ))}        </div>
       </nav>
 
-      <div className="flex items-center justify-end gap-1">
+      <div className="flex shrink-0 items-center gap-1">
         <button
           type="button"
           onClick={() => router.push(YOU[0].href)}
