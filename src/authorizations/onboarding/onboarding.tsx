@@ -1,8 +1,9 @@
 "use client";
 
+import { PencilSimple } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { type CSSProperties, type FormEvent, useEffect, useState } from "react";
+import { type ChangeEvent, type CSSProperties, type FormEvent, useEffect, useRef, useState } from "react";
 import { authClient } from "@/packages/db/auth/client";
 
 const ease = [0.25, 1, 0.5, 1] as const;
@@ -31,7 +32,7 @@ function Words({ text, className = "", delay = 0 }: { text: string; className?: 
           >
             {w}
           </motion.span>
-          {i < words.length - 1 && " "}
+          {i < words.length - 1 && " "}
         </span>
       ))}
     </span>
@@ -43,6 +44,18 @@ const fade = (delay: number) => ({
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.7, ease, delay },
 });
+
+/** Pen box shown on the banner and the profile picture. Decorative: the parent button is the click target. */
+function EditBadge({ className = "" }: { className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={`flex size-9 items-center justify-center rounded-[15px] border border-border bg-background/80 text-foreground backdrop-blur-md transition-colors group-hover:bg-background ${className}`}
+    >
+      <PencilSimple size={16} weight="bold" />
+    </span>
+  );
+}
 
 function StatusLine({ status, value }: { status: Status; value: string }) {
   const icon = "size-4 shrink-0";
@@ -89,6 +102,24 @@ export default function Onboarding() {
   const [status, setStatus] = useState<Status>("idle");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Local previews only (blob URLs). Nothing is uploaded yet.
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [bannerUrl, setBannerUrl] = useState<string | null>(null);
+  const avatarInput = useRef<HTMLInputElement>(null);
+  const bannerInput = useRef<HTMLInputElement>(null);
+
+  // Cleanup runs when the URL changes or the page unmounts, so old previews are released.
+  useEffect(() => () => { if (avatarUrl) URL.revokeObjectURL(avatarUrl); }, [avatarUrl]);
+  useEffect(() => () => { if (bannerUrl) URL.revokeObjectURL(bannerUrl); }, [bannerUrl]);
+
+  function onPick(set: (url: string) => void) {
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      e.target.value = ""; // lets the same file be picked again
+      if (file) set(URL.createObjectURL(file));
+    };
+  }
 
   // Debounced availability check; stale responses are ignored.
   useEffect(() => {
@@ -141,49 +172,60 @@ export default function Onboarding() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease }}
       >
-        {/* Background */}
-        <div className="h-28 bg-linear-to-br from-primary/50 via-primary/25 to-muted sm:h-36 md:h-40" />
+        <input ref={bannerInput} type="file" accept="image/*" className="hidden" onChange={onPick(setBannerUrl)} />
+        <input ref={avatarInput} type="file" accept="image/*" className="hidden" onChange={onPick(setAvatarUrl)} />
 
-        {/* Profile picture, centered and overlapping the background */}
+        {/* Banner: the whole area is clickable, pen box top right */}
+        <button
+          type="button"
+          onClick={() => bannerInput.current?.click()}
+          aria-label="Edit banner"
+          className="group relative block h-28 w-full overflow-hidden bg-linear-to-br from-primary/50 via-primary/25 to-muted focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-foreground sm:h-36 md:h-40"
+        >
+          {bannerUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={bannerUrl} alt="" className="size-full object-cover" />
+          )}
+          <EditBadge className="absolute right-3 top-3" />
+        </button>
+
+        {/* Profile picture, centered and overlapping the banner */}
         <div className="-mt-[calc(var(--avatar)/2)] flex justify-center">
           <motion.div
-            role="img"
-            aria-label="Profile picture preview"
-            className="flex size-[var(--avatar)] items-center justify-center overflow-hidden rounded-full border-[6px] border-background bg-linear-to-br from-primary to-cyan-400 text-white"
+            className="relative"
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 180, damping: 16, delay: 0.2 }}
           >
-            <AnimatePresence mode="wait" initial={false}>
-              {letter ? (
-                <motion.span
-                  key={letter}
-                  className="font-[family-name:var(--font-instrument-serif)] leading-none"
-                  style={{ fontSize: "calc(var(--avatar) * 0.45)" }}
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.5, opacity: 0 }}
-                  transition={{ duration: 0.2, ease }}
-                >
-                  {letter}
-                </motion.span>
+            <button
+              type="button"
+              onClick={() => avatarInput.current?.click()}
+              aria-label="Edit profile picture"
+              className="group flex size-[var(--avatar)] items-center justify-center overflow-hidden rounded-full border-[6px] border-background bg-muted text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+            >
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt="" className="size-full object-cover" />
               ) : (
-                <motion.svg
-                  key="star"
-                  className="size-[45%] fill-background stroke-background"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                  aria-hidden
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.5, opacity: 0 }}
-                  transition={{ duration: 0.2, ease }}
-                >
-                  <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
-                </motion.svg>
+                <AnimatePresence mode="wait" initial={false}>
+                  {letter && (
+                    <motion.span
+                      key={letter}
+                      className="font-[family-name:var(--font-instrument-serif)] leading-none"
+                      style={{ fontSize: "calc(var(--avatar) * 0.45)" }}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.5, opacity: 0 }}
+                      transition={{ duration: 0.2, ease }}
+                    >
+                      {letter}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               )}
-            </AnimatePresence>
+            </button>
+            {/* Outside the clipped circle so it can sit on the edge */}
+            <EditBadge className="pointer-events-none absolute bottom-1 right-1" />
           </motion.div>
         </div>
 
