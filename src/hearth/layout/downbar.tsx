@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { Avatar, Icon, SECTIONS, Skeleton, focusRing, isActive, useMe, type IconName } from "./kit";
+import { Icon, SECTIONS, focusRing, isActive, type IconName } from "./kit";
+import UserMenu from "./user-menu";
 
 const button = "flex size-11 shrink-0 items-center justify-center rounded-nav border transition-colors";
 const idle = "border-transparent text-muted hover:bg-hover hover:text-foreground";
@@ -29,28 +30,6 @@ function Divider() {
   return <span aria-hidden className="mx-2 h-6 w-px shrink-0 rounded-full bg-divider" />;
 }
 
-function UserChip() {
-  const me = useMe();
-  const router = useRouter();
-
-  if (!me.ready) return <Skeleton className="h-10 w-36" />;
-
-  return (
-    <button
-      type="button"
-      onClick={() => router.push("/user-profile")}
-      aria-label="Your profile"
-      className={`flex items-center gap-3 rounded-nav py-1 pl-1 pr-4 text-left transition-colors hover:bg-hover ${focusRing}`}
-    >
-      <Avatar image={me.image} letter={me.letter} className="size-9 rounded-full bg-hover" />
-      <span className="hidden min-w-0 sm:block">
-        <span className="block truncate text-sm font-medium leading-tight">{me.name}</span>
-        {me.username && <span className="block truncate text-xs leading-tight text-muted">@{me.username}</span>}
-      </span>
-    </button>
-  );
-}
-
 export default function Downbar() {
   return (
     <footer className="flex h-16 shrink-0 items-center px-3">
@@ -63,7 +42,7 @@ export default function Downbar() {
       </nav>
 
       <div className="ml-auto flex shrink-0 items-center gap-1 pl-3">
-        <UserChip />
+        <UserMenu />
         <Divider />
         <button type="button" aria-label="Inbox" title="Inbox" className={`${button} ${idle} ${focusRing}`}>
           <Icon name="inbox" className="size-6" />
