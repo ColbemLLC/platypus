@@ -3,16 +3,18 @@ import { headers } from "next/headers";
 import { auth } from "@/packages/db/auth/auth";
 import { db } from "@/packages/db";
 import { community, communityMember } from "@/packages/db/schema";
+import CommunityBackdrop from "./community-backdrop";
 import CommunityCard from "./community-card";
+import CommunityLayout from "./community-layout";
 
 function Group({ title, items }: { title: string; items: Parameters<typeof CommunityCard>[0][] }) {
   return (
-    <section>
+    <section className="w-full">
       <h2 className="font-(family-name:--font-instrument-serif) text-2xl tracking-tight">{title}</h2>
       {items.length === 0 ? (
         <p className="mt-3 text-sm text-muted">Nothing here yet.</p>
       ) : (
-        <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(11rem,12rem))] justify-center gap-3">
           {items.map((c) => (
             <CommunityCard key={c.id} {...c} />
           ))}
@@ -53,12 +55,19 @@ export default async function UserCommunities() {
   }));
 
   return (
-    <main className="min-w-0 flex-1 overflow-y-auto p-6 md:p-8">
-      <h1 className="font-(family-name:--font-instrument-serif) text-4xl tracking-tight">Communities</h1>
-      <div className="mt-8 flex flex-col gap-10">
-        <Group title="Your communities" items={cards.filter((c) => mine.has(c.id))} />
-        <Group title="Discover" items={cards.filter((c) => !mine.has(c.id))} />
+    <CommunityLayout title="Communities">
+      <div className="relative min-w-0 flex-1">
+        <CommunityBackdrop />
+        <main className="relative h-full overflow-y-auto p-6 md:p-8">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <h1 className="font-(family-name:--font-instrument-serif) text-4xl tracking-tight">Communities</h1>
+            <div className="mt-8 flex w-full flex-col gap-10">
+              <Group title="Your communities" items={cards.filter((c) => mine.has(c.id))} />
+              <Group title="Discover" items={cards.filter((c) => !mine.has(c.id))} />
+            </div>
+          </div>
+        </main>
       </div>
-    </main>
+    </CommunityLayout>
   );
 }
