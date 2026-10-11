@@ -48,16 +48,17 @@ const ICONS: Record<IconName, Draw> = {
       <circle cx="12" cy="7" r="4" />
     </>
   ),
-  settings: (cut) => (
+  settings: () => (
     <>
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-      <circle cx="12" cy="12" r="3" fill="none" stroke={cut} />
+      <path d="M4 8h8M18 8h2M4 16h2M12 16h8" fill="none" />
+      <circle cx="15" cy="8" r="3" />
+      <circle cx="9" cy="16" r="3" />
     </>
   ),
-  bell: () => (
+  bell: (cut) => (
     <>
-      <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-      <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+      <path d="M18 16v-5a6 6 0 1 0-12 0v5l-1.5 2h15z" />
+      <path d="M10 21h4" fill="none" stroke={cut === "currentColor" ? "currentColor" : "currentColor"} />
     </>
   ),
   plus: () => <path d="M5 12h14M12 5v14" />,
@@ -75,7 +76,7 @@ export function Icon({ name, className = "size-5", active = false }: { name: Ico
       viewBox="0 0 24 24"
       fill={solid ? "currentColor" : "none"}
       stroke="currentColor"
-      strokeWidth={active && !solid ? 3 : 2}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden

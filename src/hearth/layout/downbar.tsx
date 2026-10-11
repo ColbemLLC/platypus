@@ -33,14 +33,14 @@ function UserChip() {
   const me = useMe();
   const router = useRouter();
 
-  if (!me.ready) return <Skeleton className="h-10 w-36 rounded-full" />;
+  if (!me.ready) return <Skeleton className="h-10 w-36" />;
 
   return (
     <button
       type="button"
       onClick={() => router.push("/user-profile")}
       aria-label="Your profile"
-      className={`flex items-center gap-3 rounded-full py-1 pl-1 pr-4 text-left transition-colors hover:bg-hover ${focusRing}`}
+      className={`flex items-center gap-3 rounded-nav py-1 pl-1 pr-4 text-left transition-colors hover:bg-hover ${focusRing}`}
     >
       <Avatar image={me.image} letter={me.letter} className="size-9 rounded-full bg-hover" />
       <span className="hidden min-w-0 sm:block">
