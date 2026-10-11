@@ -2,25 +2,35 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Icon, findNav, focusRing } from "./kit";
+import { Avatar, Icon, findNav, focusRing, isActive, type NavItem } from "./kit";
+import { useTopbarEntry } from "./topbar-content";
+
+const HOME: NavItem = { href: "/home", label: "Home", icon: "home" };
 
 export default function Topbar() {
-  const item = findNav(usePathname());
+  const pathname = usePathname();
+  const registered = useTopbarEntry();
+  const item = isActive(pathname, HOME.href) ? HOME : findNav(pathname);
+  const entry = item && item.href !== "/dm" ? registered : null;
 
   return (
     <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border bg-background/80 px-5 backdrop-blur-md md:px-8">
       <Link
         href="/home"
-        className={`font-[family-name:var(--font-instrument-serif)] text-2xl leading-none tracking-[-0.025em] ${focusRing}`}
+        className={`font-(family-name:--font-instrument-serif) text-2xl leading-none tracking-tight ${focusRing}`}
       >
         Colbe
       </Link>
       {item && (
         <>
           <div aria-hidden className="h-5 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <Icon name={item.icon} className="size-5 text-muted-foreground" />
-            <h2 className="text-sm font-medium">{item.label}</h2>
+          <div className="flex min-w-0 items-center gap-2">
+            {entry ? (
+              <Avatar image={entry.image} letter={entry.letter} className="size-6 rounded-nav bg-surface text-sm" />
+            ) : (
+              <Icon name={item.icon} className="size-5 text-muted" />
+            )}
+            <h2 className="truncate text-sm font-medium">{entry ? entry.label : item.label}</h2>
           </div>
         </>
       )}

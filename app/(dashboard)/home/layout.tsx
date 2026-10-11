@@ -1,3 +1,6 @@
-export default function HomeLayout({ children }: { children: React.ReactNode }) {
-  return children;
+import type { ReactNode } from "react";
+import Shell from "@/hearth/layout/shell";
+
+export default function HomeLayout({ children }: { children: ReactNode }) {
+  return <Shell>{children}</Shell>;
 }

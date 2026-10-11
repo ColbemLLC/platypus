@@ -1,111 +1,79 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { House, SlidersHorizontal }  from "@phosphor-icons/react";
 import type { ReactNode } from "react";
-import { Avatar, Icon, SECTIONS, YOU, focusRing, isActive, useDownbarData, useMe } from "./kit";
+import { Avatar, Icon, SECTIONS, Skeleton, focusRing, useMe } from "./kit";
 
-const BASE = 44;
-const MIN = 36; // smallest community tile
-const MAX = 52; // biggest community tile
+function NavButton({ href, label, children }: { href: string; label: string; children: ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const active = pathname === href || pathname.startsWith(`${href}/`);
 
-function Tile({
-  label,
-  active = false,
-  size = BASE,
-  className = "",
-  onClick,
-  children,
-}: {
-  label: string;
-  active?: boolean;
-  size?: number;
-  className?: string;
-  onClick: () => void;
-  children: ReactNode;
-}) {
   return (
     <button
       type="button"
-      onClick={onClick}
-      title={label}
+      onClick={() => router.push(href)}
       aria-label={label}
+      title={label}
       aria-current={active ? "page" : undefined}
-      style={{ width: size, height: size }}
-      className={`flex shrink-0 items-center justify-center rounded-[15px] transition-colors ${focusRing} ${
-        active
-          ? "bg-foreground/15 text-foreground ring-1 ring-foreground/30"
-          : "text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
-      } ${className}`}
+      className={`flex size-11 shrink-0 items-center justify-center rounded-nav border transition-colors ${
+        active ? "border-foreground bg-hover" : "border-transparent text-muted hover:bg-hover hover:text-foreground"
+      } ${focusRing}`}
     >
       {children}
     </button>
   );
 }
 
-const Divider = () => <div aria-hidden className="h-8 w-px shrink-0 bg-border" />;
+function Divider() {
+  return <span aria-hidden className="mx-2 h-7 w-px shrink-0 bg-divider" />;
+}
 
-/**
- * Bottom bar, nav far left and user far right: section presets | groups | communities (big to small).
- * router.push keeps route URLs out of the browser status bar.
- */
-export default function Downbar() {
-  const router = useRouter();
-  const pathname = usePathname();
+function UserChip() {
   const me = useMe();
-  const { groups, communities } = useDownbarData();
+  const router = useRouter();
 
-  // Biggest community first; tile size follows its share of the biggest member count.
-  const sorted = [...communities].sort((a, b) => b.members - a.members);
-  const top = sorted[0]?.members || 1;
-  const sizeOf = (members: number) => Math.round(MIN + (members / top) * (MAX - MIN));
+  if (!me.ready) return <Skeleton className="h-10 w-36" />;
 
   return (
-    <footer className="flex h-[72px] shrink-0 items-center justify-between gap-3 border-t border-border bg-background/80 px-3 backdrop-blur-md">
-      <nav aria-label="Primary" className="min-w-0 overflow-x-auto [scrollbar-width:none]">
-        <div className="flex h-[72px] w-max items-center gap-2">
-          {SECTIONS.map((item) => (
-            <Tile key={item.href} label={item.label} active={isActive(pathname, item.href)} onClick={() => router.push(item.href)}>
-              <Icon name={item.icon} />
-            </Tile>
-          ))}
+    <button
+      type="button"
+      onClick={() => router.push("/user-profile")}
+      aria-label="Your profile"
+      className={`flex items-center gap-3 rounded-nav px-2 py-1 text-left transition-colors hover:bg-hover ${focusRing}`}
+    >
+      <Avatar image={me.image} letter={me.letter} className="size-9 rounded-nav bg-background" />
+      <span className="hidden min-w-0 sm:block">
+        <span className="block truncate text-sm font-medium leading-tight">{me.name}</span>
+        {me.username && <span className="block truncate text-xs leading-tight text-muted">@{me.username}</span>}
+      </span>
+    </button>
+  );
+}
 
-          {groups.length > 0 && <Divider />}
-          {groups.map((g) => (
-            <Tile key={g.id} label={g.name} active={isActive(pathname, g.href)} onClick={() => router.push(g.href)}>
-              <Avatar image={g.image} letter={g.name.charAt(0).toUpperCase()} className="size-full rounded-[15px] bg-foreground/10 text-xl" />
-            </Tile>
-          ))}
-
-          {sorted.length > 0 && <Divider />}
-          {sorted.map((c) => (
-            <Tile key={c.id} label={`${c.name} · ${c.members} members`} size={sizeOf(c.members)} active={isActive(pathname, c.href)} onClick={() => router.push(c.href)}>
-              <Avatar image={c.image} letter={c.name.charAt(0).toUpperCase()} className="size-full rounded-[15px] bg-foreground/10 text-xl" />
-            </Tile>
-          ))}        </div>
+export default function Downbar() {
+  return (
+    <footer className="flex h-16 shrink-0 items-center border-t border-border bg-surface px-3">
+      <nav aria-label="Sections" className="flex min-w-0 items-center gap-1 overflow-x-auto">
+        <NavButton href="/home" label="Home">
+          <House className="size-6" />
+        </NavButton>
+        <Divider />
+        {SECTIONS.map((item) => (
+          <NavButton key={item.href} href={item.href} label={item.label}>
+            <Icon name={item.icon} />
+          </NavButton>
+        ))}
       </nav>
 
-      <div className="flex shrink-0 items-center gap-1">
-        <button
-          type="button"
-          onClick={() => router.push(YOU[0].href)}
-          aria-label="Open your profile"
-          className={`flex h-11 items-center gap-3 rounded-nav px-2 text-left transition-colors hover:bg-foreground/5 ${focusRing}`}
-        >
-          <Avatar image={me.image} letter={me.letter} className="size-9 rounded-full bg-foreground/10 text-lg" />
-          <span className="hidden min-w-0 flex-col md:flex">
-            <span className="max-w-32 truncate text-sm font-semibold leading-tight">{me.name || " "}</span>
-            {me.username && <span className="max-w-32 truncate text-xs leading-tight text-muted-foreground">@{me.username}</span>}
-          </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => router.push(YOU[1].href)}
-          aria-label="Settings"
-          className={`hidden size-10 items-center justify-center rounded-nav text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground sm:flex ${focusRing}`}
-        >
-          <Icon name="settings" />
-        </button>
+      <div className="ml-auto flex shrink-0 items-center gap-1 pl-3">
+        <UserChip />
+        <Divider />
+        <NavButton href="/user-settings" label="Settings">
+          <SlidersHorizontal className="size-6" />
+        </NavButton>
       </div>
     </footer>
   );
-}bun 
+}

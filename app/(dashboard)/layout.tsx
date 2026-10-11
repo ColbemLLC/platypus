@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif, Geist_Mono } from "next/font/google";
-import Shell from "@/hearth/layout/shell";
 import { RouteLoader } from "@/packages/ui/RouteLoader";
 import "../globals.css";
 
@@ -34,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <RouteLoader />
-        <Shell>{children}</Shell>
+      
       </body>
     </html>
   );

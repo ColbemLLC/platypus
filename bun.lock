@@ -6,7 +6,7 @@
       "name": "platypus",
       "dependencies": {
         "@libsql/client": "^0.18.0",
-        "@phosphor-icons/react": "phosphor-icons/react",
+        "@phosphor-icons/react": "^2.1.10",
         "better-auth": "^1.7.7",
         "drizzle-kit": "^0.31.11",
         "drizzle-orm": "^0.45.4",
@@ -253,7 +253,7 @@
 
     "@opentelemetry/semantic-conventions": ["@opentelemetry/semantic-conventions@1.43.0", "", {}, "sha512-eSYWTm620tTk45EKSedaUL8MFYI8hW164hIXsgIHyxu3VobUB3fFCu5t0hQby6OoWRPsG1KkKUG2M5UadiLiVg=="],
 
-    "@phosphor-icons/react": ["@phosphor-icons/react@github:phosphor-icons/react#81ac06f", { "peerDependencies": { "react": ">= 16.8", "react-dom": ">= 16.8" } }, "phosphor-icons-react-81ac06f", "sha512-R8TTOgPJ4BtWGFIAo83FFuOCQveqB06GSmntRmvPvkqbAIBcudaa0e3HwDxQKmm1Q+yk8qs0rD8wzTC1RGPsxQ=="],
+    "@phosphor-icons/react": ["@phosphor-icons/react@2.1.10", "", { "peerDependencies": { "react": ">= 16.8", "react-dom": ">= 16.8" } }, "sha512-vt8Tvq8GLjheAZZYa+YG/pW7HDbov8El/MANW8pOAz4eGxrwhnbfrQZq0Cp4q8zBEu8NIhHdnr+r8thnfRSNYA=="],
 
     "@standard-schema/spec": ["@standard-schema/spec@1.1.0", "", {}, "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="],
 

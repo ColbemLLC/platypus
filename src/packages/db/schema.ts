@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // Better Auth core tables (SQLite/Turso). Timestamps are ms since epoch.
 const now = sql`(cast(unixepoch('subsecond') * 1000 as integer))`;
@@ -78,4 +78,68 @@ export const verification = sqliteTable(
       .notNull(),
   },
   (t) => [index("verification_identifier_idx").on(t.identifier)],
+);
+
+export const community = sqliteTable(
+  "community",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    slug: text("slug").notNull(),
+    description: text("description"),
+    image: text("image"),
+    banner: text("banner"),
+    ownerId: text("owner_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).default(now).notNull(),
+  },
+  (t) => [index("community_owner_id_idx").on(t.ownerId)],
+);
+
+export const communityMember = sqliteTable(
+  "community_member",
+  {
+    communityId: text("community_id")
+      .notNull()
+      .references(() => community.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    role: text("role", { enum: ["owner", "admin", "member"] }).default("member").notNull(),
+    joinedAt: integer("joined_at", { mode: "timestamp_ms" }).default(now).notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.communityId, t.userId] }), index("community_member_user_id_idx").on(t.userId)],
+);
+
+export const organization = sqliteTable(
+  "organization",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    slug: text("slug").notNull(),
+    description: text("description"),
+    image: text("image"),
+    banner: text("banner"),
+    ownerId: text("owner_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).default(now).notNull(),
+  },
+  (t) => [index("organization_owner_id_idx").on(t.ownerId)],
+);
+
+export const organizationMember = sqliteTable(
+  "organization_member",
+  {
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    role: text("role", { enum: ["owner", "admin", "member"] }).default("member").notNull(),
+    joinedAt: integer("joined_at", { mode: "timestamp_ms" }).default(now).notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.organizationId, t.userId] }), index("organization_member_user_id_idx").on(t.userId)],
 );
