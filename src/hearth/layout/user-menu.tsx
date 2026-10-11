@@ -13,23 +13,6 @@ function Glyph({ children }: { children: ReactNode }) {
   );
 }
 
-function Pencil({ label, onClick, className }: { label: string; onClick: () => void; className: string }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      title={label}
-      className={`flex size-8 items-center justify-center rounded-nav border border-border bg-background/80 backdrop-blur-md transition-colors hover:bg-hover ${focusRing} ${className}`}
-    >
-      <Glyph>
-        <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-        <path d="m15 5 4 4" />
-      </Glyph>
-    </button>
-  );
-}
-
 function Row({ onClick, children }: { onClick: () => void; children: ReactNode }) {
   return (
     <button
@@ -70,11 +53,6 @@ export default function UserMenu() {
 
   if (!me.ready) return <Skeleton className="h-10 w-36" />;
 
-  const edit = () => {
-    setOpen(false);
-    router.push("/user-profile");
-  };
-
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(id);
@@ -83,7 +61,10 @@ export default function UserMenu() {
     } catch {}
   };
 
-  const signOut = () => authClient.signOut({ fetchOptions: { onSuccess: () => router.push("/") } });
+  const signOut = async () => {
+    await authClient.signOut();
+    router.push("/");
+  };
 
   return (
     <div ref={root}>
@@ -103,18 +84,16 @@ export default function UserMenu() {
       </button>
 
       {open && (
-        <div role="menu" className="absolute bottom-full right-3 mb-3 w-80 overflow-hidden rounded-card border border-border bg-surface shadow-lg">
-          <div className="relative h-24 bg-linear-to-br from-hover to-muted/60">
-            <Pencil label="Edit banner" onClick={edit} className="absolute right-3 top-3" />
-          </div>
+        <div
+          role="menu"
+          className="fixed bottom-[4.75rem] right-3 z-50 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-card border border-border bg-surface shadow-lg"
+        >
+          <div className="h-24 bg-linear-to-br from-hover to-muted/60" />
 
-          <div className="px-4 pb-4">
-            <div className="relative -mt-10 w-fit">
-              <Avatar image={me.image} letter={me.letter} className="size-20 rounded-full border-4 border-surface bg-hover text-3xl" />
-              <Pencil label="Edit picture" onClick={edit} className="absolute -bottom-1 -right-1" />
-            </div>
-            <p className="mt-3 truncate font-(family-name:--font-instrument-serif) text-3xl leading-tight tracking-tight">{me.name}</p>
-            {me.username && <p className="truncate text-sm text-muted">@{me.username}</p>}
+          <div className="flex flex-col items-center px-4 pb-4 text-center">
+            <Avatar image={me.image} letter={me.letter} className="-mt-10 size-20 rounded-full border-4 border-surface bg-hover text-3xl" />
+            <p className="mt-3 max-w-full truncate font-(family-name:--font-instrument-serif) text-3xl leading-tight tracking-tight">{me.name}</p>
+            {me.username && <p className="max-w-full truncate text-sm text-muted">@{me.username}</p>}
             {me.joined && <p className="mt-1 text-xs text-muted">Joined {me.joined}</p>}
           </div>
 
