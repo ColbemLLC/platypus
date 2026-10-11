@@ -3,13 +3,30 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/packages/db/auth/client";
-import { Avatar, Icon, Skeleton, focusRing, useMe, type IconName } from "./kit";
+import { Avatar, Skeleton, focusRing, useMe } from "./kit";
 
 function Glyph({ children }: { children: ReactNode }) {
   return (
     <svg className="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       {children}
     </svg>
+  );
+}
+
+function Pencil({ label, onClick, className }: { label: string; onClick: () => void; className: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className={`flex size-8 items-center justify-center rounded-nav border border-border bg-background/80 backdrop-blur-md transition-colors hover:bg-hover ${focusRing} ${className}`}
+    >
+      <Glyph>
+        <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+        <path d="m15 5 4 4" />
+      </Glyph>
+    </button>
   );
 }
 
@@ -23,15 +40,6 @@ function Row({ onClick, children }: { onClick: () => void; children: ReactNode }
     >
       {children}
     </button>
-  );
-}
-
-function NavRow({ icon, label, onClick }: { icon: IconName; label: string; onClick: () => void }) {
-  return (
-    <Row onClick={onClick}>
-      <Icon name={icon} className="size-5 text-muted" />
-      {label}
-    </Row>
   );
 }
 
@@ -62,9 +70,9 @@ export default function UserMenu() {
 
   if (!me.ready) return <Skeleton className="h-10 w-36" />;
 
-  const go = (href: string) => {
+  const edit = () => {
     setOpen(false);
-    router.push(href);
+    router.push("/user-profile");
   };
 
   const copy = async () => {
@@ -78,7 +86,7 @@ export default function UserMenu() {
   const signOut = () => authClient.signOut({ fetchOptions: { onSuccess: () => router.push("/") } });
 
   return (
-    <div ref={root} className="relative">
+    <div ref={root}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -95,22 +103,22 @@ export default function UserMenu() {
       </button>
 
       {open && (
-        <div role="menu" className="absolute bottom-full right-0 mb-3 w-72 rounded-card border border-border bg-surface p-2 shadow-lg">
-          <div className="flex items-center gap-3 px-3 py-3">
-            <Avatar image={me.image} letter={me.letter} className="size-12 rounded-full bg-hover text-xl" />
-            <div className="min-w-0">
-              <p className="truncate font-(family-name:--font-instrument-serif) text-2xl leading-tight tracking-tight">{me.name}</p>
-              {me.username && <p className="truncate text-sm text-muted">@{me.username}</p>}
-              {me.joined && <p className="text-xs text-muted">Joined {me.joined}</p>}
+        <div role="menu" className="absolute bottom-full right-3 mb-3 w-80 overflow-hidden rounded-card border border-border bg-surface shadow-lg">
+          <div className="relative h-24 bg-linear-to-br from-hover to-muted/60">
+            <Pencil label="Edit banner" onClick={edit} className="absolute right-3 top-3" />
+          </div>
+
+          <div className="px-4 pb-4">
+            <div className="relative -mt-10 w-fit">
+              <Avatar image={me.image} letter={me.letter} className="size-20 rounded-full border-4 border-surface bg-hover text-3xl" />
+              <Pencil label="Edit picture" onClick={edit} className="absolute -bottom-1 -right-1" />
             </div>
+            <p className="mt-3 truncate font-(family-name:--font-instrument-serif) text-3xl leading-tight tracking-tight">{me.name}</p>
+            {me.username && <p className="truncate text-sm text-muted">@{me.username}</p>}
+            {me.joined && <p className="mt-1 text-xs text-muted">Joined {me.joined}</p>}
           </div>
 
-          <div className="rounded-nav bg-background p-1">
-            <NavRow icon="profile" label="Edit profile" onClick={() => go("/user-profile")} />
-            <NavRow icon="settings" label="Settings" onClick={() => go("/user-settings")} />
-          </div>
-
-          <div className="mt-2 rounded-nav bg-background p-1">
+          <div className="mx-2 mb-2 rounded-nav bg-background p-1">
             <Row onClick={copy}>
               <span className="text-muted">
                 <Glyph>
