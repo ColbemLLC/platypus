@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { Avatar, Icon, OVERVIEW, SECTIONS, YOU, focusRing, isActive, useDownbarData, useMe } from "./kit";
+import { Avatar, Icon, SECTIONS, YOU, focusRing, isActive, useDownbarData, useMe } from "./kit";
 
 const BASE = 44;
 const MIN = 36; // smallest community tile
@@ -63,7 +63,7 @@ export default function Downbar() {
     <footer className="flex h-[72px] shrink-0 items-center justify-between gap-3 border-t border-border bg-background/80 px-3 backdrop-blur-md">
       <nav aria-label="Primary" className="min-w-0 overflow-x-auto [scrollbar-width:none]">
         <div className="flex h-[72px] w-max items-center gap-2">
-          {[OVERVIEW, ...SECTIONS].map((item) => (
+          {SECTIONS.map((item) => (
             <Tile key={item.href} label={item.label} active={isActive(pathname, item.href)} onClick={() => router.push(item.href)}>
               <Icon name={item.icon} />
             </Tile>
@@ -108,4 +108,4 @@ export default function Downbar() {
       </div>
     </footer>
   );
-}
+}bun 

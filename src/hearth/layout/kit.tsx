@@ -7,15 +7,9 @@ export const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2
 
 export const container = "mx-auto w-full max-w-5xl px-5 md:px-8";
 
-export type IconName = "home" | "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "plus" | "arrow";
+export type IconName = "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "plus" | "arrow";
 
 const ICONS: Record<IconName, ReactNode> = {
-  home: (
-    <>
-      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-      <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-    </>
-  ),
   guilds: <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />,
   communities: (
     <>
@@ -62,8 +56,6 @@ export function Icon({ name, className = "size-5" }: { name: IconName; className
 export type NavItem = { href: string; label: string; icon: IconName };
 export type Card = NavItem & { blurb: string };
 
-export const OVERVIEW: NavItem = { href: "/home", label: "Overview", icon: "home" };
-
 export const SECTIONS: Card[] = [
   { href: "/guilds", label: "Guilds", icon: "guilds", blurb: "Chat and organize with your guilds." },
   { href: "/user-communities", label: "Communities", icon: "communities", blurb: "Discover and join communities." },
@@ -80,7 +72,7 @@ export const YOU: Card[] = [
 export const isActive = (pathname: string, href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
 export const findNav = (pathname: string): NavItem | undefined =>
-  [OVERVIEW, ...SECTIONS, ...YOU].find((item) => isActive(pathname, item.href));
+  [...SECTIONS, ...YOU].find((item) => isActive(pathname, item.href));
 
 export function useMe() {
   const { data } = authClient.useSession();
