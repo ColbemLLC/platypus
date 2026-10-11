@@ -16,9 +16,7 @@ export default function Shell({ children }: { children: ReactNode }) {
             <Sidebar />
             <div className="flex min-w-0 flex-1 flex-col">
               <Topbar />
-              <div className="flex min-h-0 flex-1 overflow-hidden rounded-l-card border-y border-l border-border bg-surface">
-                {children}
-              </div>
+              <div className="flex min-h-0 flex-1 overflow-hidden rounded-tl-card bg-surface">{children}</div>
             </div>
           </div>
           <Downbar />

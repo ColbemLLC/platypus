@@ -14,7 +14,7 @@ export default function Topbar() {
   const entry = item && item.href !== "/dm" ? registered : null;
 
   return (
-    <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border bg-background/80 px-5 backdrop-blur-md md:px-8">
+    <header className="flex h-14 shrink-0 items-center gap-4 px-5 md:px-8">
       <Link
         href="/home"
         className={`font-(family-name:--font-instrument-serif) text-2xl leading-none tracking-tight ${focusRing}`}
@@ -23,10 +23,10 @@ export default function Topbar() {
       </Link>
       {item && (
         <>
-          <div aria-hidden className="h-5 w-px bg-border" />
+          <div aria-hidden className="h-5 w-px rounded-full bg-divider" />
           <div className="flex min-w-0 items-center gap-2">
             {entry ? (
-              <Avatar image={entry.image} letter={entry.letter} className="size-6 rounded-nav bg-surface text-sm" />
+              <Avatar image={entry.image} letter={entry.letter} className="size-6 rounded-nav bg-hover text-sm" />
             ) : (
               <Icon name={item.icon} className="size-5 text-muted" />
             )}

@@ -1,14 +1,12 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { House, SlidersHorizontal }  from "@phosphor-icons/react";
-import type { ReactNode } from "react";
-import { Avatar, Icon, SECTIONS, Skeleton, focusRing, useMe } from "./kit";
+import { Avatar, Icon, SECTIONS, Skeleton, focusRing, isActive, useMe, type IconName } from "./kit";
 
-function NavButton({ href, label, children }: { href: string; label: string; children: ReactNode }) {
+function NavButton({ href, label, icon }: { href: string; label: string; icon: IconName }) {
   const router = useRouter();
   const pathname = usePathname();
-  const active = pathname === href || pathname.startsWith(`${href}/`);
+  const active = isActive(pathname, href);
 
   return (
     <button
@@ -21,13 +19,13 @@ function NavButton({ href, label, children }: { href: string; label: string; chi
         active ? "border-foreground bg-hover" : "border-transparent text-muted hover:bg-hover hover:text-foreground"
       } ${focusRing}`}
     >
-      {children}
+      <Icon name={icon} active={active} className="size-6" />
     </button>
   );
 }
 
 function Divider() {
-  return <span aria-hidden className="mx-2 h-7 w-px shrink-0 bg-divider" />;
+  return <span aria-hidden className="mx-2 h-6 w-px shrink-0 rounded-full bg-divider" />;
 }
 
 function UserChip() {
@@ -43,7 +41,7 @@ function UserChip() {
       aria-label="Your profile"
       className={`flex items-center gap-3 rounded-nav px-2 py-1 text-left transition-colors hover:bg-hover ${focusRing}`}
     >
-      <Avatar image={me.image} letter={me.letter} className="size-9 rounded-nav bg-background" />
+      <Avatar image={me.image} letter={me.letter} className="size-9 rounded-nav bg-hover" />
       <span className="hidden min-w-0 sm:block">
         <span className="block truncate text-sm font-medium leading-tight">{me.name}</span>
         {me.username && <span className="block truncate text-xs leading-tight text-muted">@{me.username}</span>}
@@ -54,25 +52,19 @@ function UserChip() {
 
 export default function Downbar() {
   return (
-    <footer className="flex h-16 shrink-0 items-center border-t border-border bg-surface px-3">
+    <footer className="flex h-16 shrink-0 items-center px-3">
       <nav aria-label="Sections" className="flex min-w-0 items-center gap-1 overflow-x-auto">
-        <NavButton href="/home" label="Home">
-          <House className="size-6" />
-        </NavButton>
+        <NavButton href="/home" label="Home" icon="home" />
         <Divider />
         {SECTIONS.map((item) => (
-          <NavButton key={item.href} href={item.href} label={item.label}>
-            <Icon name={item.icon} />
-          </NavButton>
+          <NavButton key={item.href} href={item.href} label={item.label} icon={item.icon} />
         ))}
       </nav>
 
       <div className="ml-auto flex shrink-0 items-center gap-1 pl-3">
         <UserChip />
         <Divider />
-        <NavButton href="/user-settings" label="Settings">
-          <SlidersHorizontal className="size-6" />
-        </NavButton>
+        <NavButton href="/user-settings" label="Settings" icon="settings" />
       </div>
     </footer>
   );
