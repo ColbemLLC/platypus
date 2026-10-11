@@ -7,7 +7,7 @@ export const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2
 
 export const container = "mx-auto w-full max-w-5xl px-5 md:px-8";
 
-export type IconName = "home" | "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "plus" | "arrow";
+export type IconName = "home" | "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "bell" | "plus" | "arrow";
 
 type Draw = (cut: string) => ReactNode;
 
@@ -48,12 +48,23 @@ const ICONS: Record<IconName, Draw> = {
       <circle cx="12" cy="7" r="4" />
     </>
   ),
-  settings: () => <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />,
+  settings: (cut) => (
+    <>
+      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" fill="none" stroke={cut} />
+    </>
+  ),
+  bell: () => (
+    <>
+      <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+      <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+    </>
+  ),
   plus: () => <path d="M5 12h14M12 5v14" />,
   arrow: () => <path d="M7 7h10v10M7 17 17 7" />,
 };
 
-const LINE_ONLY: IconName[] = ["settings", "plus", "arrow"];
+const LINE_ONLY: IconName[] = ["plus", "arrow"];
 
 export function Icon({ name, className = "size-5", active = false }: { name: IconName; className?: string; active?: boolean }) {
   const solid = active && !LINE_ONLY.includes(name);
