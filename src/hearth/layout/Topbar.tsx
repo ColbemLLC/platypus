@@ -14,7 +14,7 @@ export default function Topbar() {
   const entry = item && item.href !== "/dm" ? registered : null;
 
   return (
-    <header className="flex h-14 shrink-0 items-center gap-4 px-5 md:px-8">
+    <header className="flex h-14 shrink-0 items-center justify-center gap-4 px-5 md:px-8">
       <Link
         href="/home"
         className={`font-(family-name:--font-instrument-serif) text-2xl leading-none tracking-tight ${focusRing}`}
