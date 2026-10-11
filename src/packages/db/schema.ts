@@ -112,12 +112,11 @@ export const communityMember = sqliteTable(
   (t) => [primaryKey({ columns: [t.communityId, t.userId] }), index("community_member_user_id_idx").on(t.userId)],
 );
 
-export const organization = sqliteTable(
-  "organization",
+export const guild = sqliteTable(
+  "guild",
   {
     id: text("id").primaryKey(),
     name: text("name").notNull(),
-    slug: text("slug").notNull(),
     description: text("description"),
     image: text("image"),
     banner: text("banner"),
@@ -126,20 +125,20 @@ export const organization = sqliteTable(
       .references(() => user.id, { onDelete: "cascade" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).default(now).notNull(),
   },
-  (t) => [index("organization_owner_id_idx").on(t.ownerId)],
+  (t) => [index("guild_owner_id_idx").on(t.ownerId)],
 );
 
-export const organizationMember = sqliteTable(
-  "organization_member",
+export const guildMember = sqliteTable(
+  "guild_member",
   {
-    organizationId: text("organization_id")
+    guildId: text("guild_id")
       .notNull()
-      .references(() => organization.id, { onDelete: "cascade" }),
+      .references(() => guild.id, { onDelete: "cascade" }),
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     role: text("role", { enum: ["owner", "admin", "member"] }).default("member").notNull(),
     joinedAt: integer("joined_at", { mode: "timestamp_ms" }).default(now).notNull(),
   },
-  (t) => [primaryKey({ columns: [t.organizationId, t.userId] }), index("organization_member_user_id_idx").on(t.userId)],
+  (t) => [primaryKey({ columns: [t.guildId, t.userId] }), index("guild_member_user_id_idx").on(t.userId)],
 );

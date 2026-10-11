@@ -7,7 +7,7 @@ export const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2
 
 export const container = "mx-auto w-full max-w-5xl px-5 md:px-8";
 
-export type IconName = "home" | "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "inbox" | "plus" | "arrow";
+export type IconName = "home" | "guilds" | "communities" | "dm" | "badges" | "profile" | "settings" | "inbox" | "plus" | "arrow";
 
 type Draw = (cut: string) => ReactNode;
 
@@ -27,14 +27,6 @@ const ICONS: Record<IconName, Draw> = {
       <circle cx="9" cy="7" r="4" />
       <path d="M22 21v-2a4 4 0 0 0-3-3.87" fill="none" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" fill="none" />
-    </>
-  ),
-  organization: (cut) => (
-    <>
-      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
-      <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
-      <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
-      <path d="M10 6h4M10 10h4M10 14h4M10 18h4" fill="none" stroke={cut} />
     </>
   ),
   dm: () => <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
@@ -95,7 +87,6 @@ export type Card = NavItem & { blurb: string };
 export const SECTIONS: Card[] = [
   { href: "/guilds", label: "Guilds", icon: "guilds", blurb: "Chat and organize with your guilds." },
   { href: "/user-communities", label: "Communities", icon: "communities", blurb: "Discover and join communities." },
-  { href: "/organization", label: "Organization", icon: "organization", blurb: "Your institution, kept apart from communities." },
   { href: "/dm", label: "Direct messages", icon: "dm", blurb: "Private conversations, one to one." },
   { href: "/badges", label: "Badges", icon: "badges", blurb: "Awarded when you reach a milestone." },
 ];

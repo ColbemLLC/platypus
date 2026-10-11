@@ -1,6 +1,8 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import CreateDialog from "./create-dialog";
 import { Icon, SECTIONS, focusRing, isActive, type IconName } from "./kit";
 import UserMenu from "./user-menu";
 
@@ -31,14 +33,27 @@ function Divider() {
 }
 
 export default function Downbar() {
+  const [creating, setCreating] = useState(false);
+  const close = useCallback(() => setCreating(false), []);
+
   return (
-    <footer className="flex h-16 shrink-0 items-center px-3">
+    <footer className="relative flex h-16 shrink-0 items-center px-3">
       <nav aria-label="Sections" className="flex min-w-0 items-center gap-1 overflow-x-auto">
         <NavButton href="/home" label="Home" icon="home" />
         <Divider />
         {SECTIONS.map((item) => (
           <NavButton key={item.href} href={item.href} label={item.label} icon={item.icon} />
         ))}
+        <Divider />
+        <button
+          type="button"
+          onClick={() => setCreating(true)}
+          aria-label="Create a community or guild"
+          title="Create"
+          className={`${button} ${idle} ${focusRing}`}
+        >
+          <Icon name="plus" className="size-6" />
+        </button>
       </nav>
 
       <div className="ml-auto flex shrink-0 items-center gap-1 pl-3">
@@ -49,6 +64,8 @@ export default function Downbar() {
         </button>
         <NavButton href="/user-settings" label="Settings" icon="settings" />
       </div>
+
+      {creating && <CreateDialog onClose={close} />}
     </footer>
   );
 }
