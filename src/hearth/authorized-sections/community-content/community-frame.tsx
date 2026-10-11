@@ -1,5 +1,6 @@
 "use client";
 
+import Downbar from "./downbar";
 import { useState } from "react";
 import ChatLayout from "../user-chat/chat-layout";
 import { Avatar, Icon, focusRing, type IconName } from "../../layout/kit";
