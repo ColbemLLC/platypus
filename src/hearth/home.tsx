@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type Card, Avatar, Icon, SECTIONS, Skeleton, YOU, container, focusRing, useMe } from "./layout/kit";
-
-const CARDS: Card[] = [...SECTIONS, YOU[0]];
+import { Avatar, Skeleton, container, focusRing, useMe } from "./layout/kit";
 
 function Hero() {
   const me = useMe();
@@ -34,38 +32,6 @@ function Hero() {
         )}
       </div>
     </>
-  );
-}
-
-function SectionCard({ item }: { item: Card }) {
-  return (
-    <Link
-      href={item.href}
-      className={`flex h-full flex-col gap-5 rounded-[15px] border border-border bg-foreground/[0.03] p-5 transition-colors hover:border-foreground/30 hover:bg-foreground/[0.07] ${focusRing}`}
-    >
-      <span className="flex size-10 items-center justify-center rounded-nav border border-border bg-background/60">
-        <Icon name={item.icon} />
-      </span>
-      <div>
-        <h3 className="font-[family-name:var(--font-instrument-serif)] text-2xl leading-tight tracking-[-0.025em]">{item.label}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{item.blurb}</p>
-      </div>
-    </Link>
-  );
-}
-
-function JumpIn() {
-  return (
-    <section aria-labelledby="jump-in" className={`${container} mt-12 pb-16`}>
-      <h2 id="jump-in" className="font-[family-name:var(--font-instrument-serif)] text-3xl tracking-[-0.025em]">
-        Jump <span className="italic text-foreground/60">in.</span>
-      </h2>
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-        {CARDS.map((item) => (
-          <SectionCard key={item.href} item={item} />
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -124,7 +90,6 @@ export default function Home() {
     <>
       <main className="min-w-0 flex-1 overflow-y-auto">
         <Hero />
-        <JumpIn />
       </main>
       <About />
     </>
