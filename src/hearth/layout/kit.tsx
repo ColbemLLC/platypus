@@ -7,9 +7,11 @@ export const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2
 
 export const container = "mx-auto w-full max-w-5xl px-5 md:px-8";
 
-export type IconName = "home" | "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "bell" | "plus" | "arrow";
+export type IconName = "home" | "guilds" | "communities" | "organization" | "dm" | "badges" | "profile" | "settings" | "inbox" | "plus" | "arrow";
 
 type Draw = (cut: string) => ReactNode;
+
+const COG = "M19.015 10.38 21.877 10.436 21.877 13.564 19.015 13.62A7.2 7.2 0 0 1 18.106 15.815";
 
 const ICONS: Record<IconName, Draw> = {
   home: (cut) => (
@@ -48,17 +50,18 @@ const ICONS: Record<IconName, Draw> = {
       <circle cx="12" cy="7" r="4" />
     </>
   ),
-  settings: () => (
+  settings: (cut) => (
     <>
-      <path d="M4 8h8M18 8h2M4 16h2M12 16h8" fill="none" />
-      <circle cx="15" cy="8" r="3" />
-      <circle cx="9" cy="16" r="3" />
+      {Array.from({ length: 8 }, (_, i) => (
+        <path key={i} d={COG} transform={`rotate(${i * 45} 12 12)`} />
+      ))}
+      <circle cx="12" cy="12" r="2.8" fill="none" stroke={cut} />
     </>
   ),
-  bell: (cut) => (
+  inbox: (cut) => (
     <>
-      <path d="M18 16v-5a6 6 0 1 0-12 0v5l-1.5 2h15z" />
-      <path d="M10 21h4" fill="none" stroke={cut === "currentColor" ? "currentColor" : "currentColor"} />
+      <rect x="3" y="5" width="18" height="14" rx="2.5" />
+      <path d="m3.5 7.5 8.5 6 8.5-6" fill="none" stroke={cut} />
     </>
   ),
   plus: () => <path d="M5 12h14M12 5v14" />,

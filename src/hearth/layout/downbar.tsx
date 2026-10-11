@@ -65,8 +65,8 @@ export default function Downbar() {
       <div className="ml-auto flex shrink-0 items-center gap-1 pl-3">
         <UserChip />
         <Divider />
-        <button type="button" aria-label="Notifications" title="Notifications" className={`${button} ${idle} ${focusRing}`}>
-          <Icon name="bell" className="size-6" />
+        <button type="button" aria-label="Inbox" title="Inbox" className={`${button} ${idle} ${focusRing}`}>
+          <Icon name="inbox" className="size-6" />
         </button>
         <NavButton href="/user-settings" label="Settings" icon="settings" />
       </div>
