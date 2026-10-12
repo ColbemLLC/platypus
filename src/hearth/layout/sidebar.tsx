@@ -11,7 +11,7 @@ export default function Sidebar() {
     <nav aria-label="Colbe" className="hidden w-[72px] shrink-0 flex-col items-center gap-3 overflow-y-auto pb-3 pt-14 sm:flex">
       <button
         type="button"
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/home")}
         aria-label="Colbe welcome page"
         title="Colbe"
         className={`rounded-card p-1.5 transition-colors hover:bg-hover ${focusRing}`}
