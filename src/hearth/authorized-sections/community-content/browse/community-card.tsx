@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Avatar, focusRing } from "../../layout/kit";
+import { Avatar, focusRing } from "../../../layout/kit";
 
 export type CommunityCardData = {
   id: string;

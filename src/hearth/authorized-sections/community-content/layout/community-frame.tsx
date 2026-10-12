@@ -3,10 +3,10 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ChatLayout from "../user-chat/chat-layout";
-import { Avatar, Icon, focusRing, type IconName } from "../../layout/kit";
-import { useSetTopbar } from "../../layout/topbar-content";
-import type { CommunityView, Member, Role } from "./community-data";
+import ChatLayout from "../../user-chat/chat-layout";
+import { Avatar, Icon, focusRing, type IconName } from "../../../layout/kit";
+import { useSetTopbar } from "../../../layout/topbar-content";
+import type { CommunityView, Member, Role } from "../data/community-data";
 
 type Section = "overview" | "members" | "chat";
 

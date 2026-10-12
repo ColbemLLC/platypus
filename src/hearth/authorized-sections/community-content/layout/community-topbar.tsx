@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Avatar, Icon, focusRing } from "../../layout/kit";
+import { Avatar, Icon, focusRing } from "../../../layout/kit";
 
 // Shallow ripple hanging from the bar's bottom edge (Arc-style lining).
 const scallop = "radial-gradient(ellipse 7px 5px at 50% 0, #000 98%, transparent 100%)";

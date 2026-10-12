@@ -3,9 +3,9 @@ import { headers } from "next/headers";
 import { auth } from "@/packages/db/auth/auth";
 import { db } from "@/packages/db";
 import { community, communityMember } from "@/packages/db/schema";
-import CommunitiesBrowser from "./communities-browser";
-import CommunityBackdrop from "./community-backdrop";
-import CommunityLayout from "./community-layout";
+import CommunitiesBrowser from "./browse/communities-browser";
+import CommunityBackdrop from "./layout/community-backdrop";
+import CommunityLayout from "./layout/community-layout";
 
 export default async function UserCommunities() {
   const session = await auth.api.getSession({ headers: await headers() });

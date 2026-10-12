@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { focusRing } from "../../layout/kit";
+import { focusRing } from "../../../layout/kit";
 import CommunityCard, { type CommunityCardData } from "./community-card";
 
 function Section({ title, items }: { title: string; items: CommunityCardData[] }) {

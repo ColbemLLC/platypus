@@ -2,8 +2,8 @@
 
 import { MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
-import Downbar from "../../layout/downbar";
-import Sidebar from "../../layout/sidebar";
+import Downbar from "../../../layout/downbar";
+import Sidebar from "../../../layout/sidebar";
 import CommunityTopbar from "./community-topbar";
 
 export default function CommunityLayout({

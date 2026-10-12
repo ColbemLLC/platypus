@@ -7,6 +7,17 @@ import { useTopbarEntry } from "./topbar-content";
 
 const HOME: NavItem = { href: "/home", label: "Home", icon: "home" };
 
+// Shallow ripple hanging from the bar's bottom edge (Arc-style lining).
+const scallop = "radial-gradient(ellipse 7px 5px at 50% 0, #000 98%, transparent 100%)";
+const mask = {
+  maskImage: scallop,
+  WebkitMaskImage: scallop,
+  maskSize: "14px 5px",
+  WebkitMaskSize: "14px 5px",
+  maskRepeat: "repeat-x",
+  WebkitMaskRepeat: "repeat-x",
+} as const;
+
 export default function Topbar() {
   const pathname = usePathname();
   const registered = useTopbarEntry();
@@ -14,7 +25,7 @@ export default function Topbar() {
   const entry = item && item.href !== "/dm" ? registered : null;
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-center gap-4 px-5 md:px-8">
+    <header className="relative flex h-14 shrink-0 items-center justify-center gap-4 px-5 md:px-8">
       <Link
         href="/home"
         className={`font-(family-name:--font-instrument-serif) text-2xl leading-none tracking-tight ${focusRing}`}
@@ -34,6 +45,7 @@ export default function Topbar() {
           </div>
         </>
       )}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-full z-10 h-[5px] bg-background" style={mask} />
     </header>
   );
 }
