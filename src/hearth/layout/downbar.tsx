@@ -3,7 +3,8 @@
 import { useCallback, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import CreateDialog from "./create-dialog";
-import { Icon, SECTIONS, focusRing, isActive, type IconName } from "./kit";
+import { Avatar, Icon, SECTIONS, focusRing, isActive, type IconName } from "./kit";
+import { useJoinedCommunities } from "./use-joined-communities";
 import UserMenu from "./user-menu";
 
 const button = "flex size-11 shrink-0 items-center justify-center rounded-nav border transition-colors";
@@ -28,6 +29,26 @@ function NavButton({ href, label, icon }: { href: string; label: string; icon: I
   );
 }
 
+function CommunityButton({ id, name, image }: { id: string; name: string; image: string | null }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const href = `/user-communities/${id}`;
+  const active = isActive(pathname, href);
+
+  return (
+    <button
+      type="button"
+      onClick={() => router.push(href)}
+      aria-label={name}
+      title={name}
+      aria-current={active ? "page" : undefined}
+      className={`${button} ${active ? "border-foreground bg-hover" : "border-transparent hover:bg-hover"} ${focusRing}`}
+    >
+      <Avatar image={image} letter={name.charAt(0).toUpperCase()} className="size-8 rounded-nav bg-surface text-sm" />
+    </button>
+  );
+}
+
 function Divider() {
   return <span aria-hidden className="mx-2 h-6 w-px shrink-0 rounded-full bg-divider" />;
 }
@@ -35,6 +56,7 @@ function Divider() {
 export default function Downbar() {
   const [creating, setCreating] = useState(false);
   const close = useCallback(() => setCreating(false), []);
+  const joined = useJoinedCommunities();
 
   return (
     <footer className="relative flex h-16 shrink-0 items-center px-3">
@@ -45,6 +67,9 @@ export default function Downbar() {
           <NavButton key={item.href} href={item.href} label={item.label} icon={item.icon} />
         ))}
         <Divider />
+        {joined.map((c) => (
+          <CommunityButton key={c.id} id={c.id} name={c.name} image={c.image} />
+        ))}
         <button
           type="button"
           onClick={() => setCreating(true)}
