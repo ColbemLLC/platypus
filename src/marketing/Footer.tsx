@@ -35,8 +35,15 @@ export default function Footer({ brand = "Colbe" }: { brand?: string }) {
 
       <div className="mx-auto flex max-w-[1400px] flex-col justify-between gap-14 px-6 py-14 md:flex-row md:px-10">
         <div className="flex flex-col gap-10 sm:flex-row sm:gap-16">
-          <Link href="/" aria-label={brand} className={`grid size-10 place-items-center self-start rounded-nav bg-cta font-bold text-cta-foreground ${focus}`}>
-            {brand[0]}
+          <Link href="/" aria-label={brand} className={`self-start rounded-nav ${focus}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://github.com/ColbemLLC.png"
+              alt=""
+              width={40}
+              height={40}
+              className="size-10 rounded-nav"
+            />
           </Link>
           {columns.map((c) => (
             <nav key={c.title} aria-label={c.title}>
