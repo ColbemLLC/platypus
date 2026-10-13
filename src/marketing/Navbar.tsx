@@ -43,9 +43,14 @@ export default function Navbar({ brand = "Colbe", actions = defaultActions }: Pr
     <header className="sticky top-0 z-50 bg-hover text-foreground">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-6 md:px-10">
         <Link href="/" className={`flex items-center gap-2.5 rounded-nav ${focus}`}>
-          <span className="grid size-8 place-items-center rounded-nav bg-cta text-sm font-bold text-cta-foreground">
-            {brand[0]}
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://github.com/ColbemLLC.png"
+            alt={`${brand} logo`}
+            width={32}
+            height={32}
+            className="size-8 rounded-nav"
+          />
           <span className="font-[family-name:var(--font-instrument-serif)] text-2xl tracking-tight">
             {brand}
           </span>

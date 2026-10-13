@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@iconify/react": "^4.1.1",
     "@libsql/client": "^0.18.0",
     "@phosphor-icons/react": "^2.1.10",
     "better-auth": "^1.7.7",
