@@ -1,69 +1,85 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { BookOpen, Heart, Info } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
+
+import { NotchNav, type NotchItemData } from "@/packages/ui/notch-nav";
+
+type NavItem = NotchItemData & { href: string };
+
+// Add new pages here as the site grows.
+const items: NavItem[] = [
+  { id: "about", label: "About", href: "/about", icon: Info },
+  { id: "docs", label: "Documentation", href: "/docs", icon: BookOpen },
+  { id: "credits", label: "Credits", href: "/credits", icon: Heart },
+];
 
 type Props = {
   brand?: string;
   /** Right-side slot. Falls back to the default sign in / get started buttons. */
   actions?: ReactNode;
+  children?: ReactNode;
 };
 
-const focus =
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
-
 const defaultActions = (
-  <>
+  <div className="flex items-center gap-1">
     <Link
       href="/login"
-      className={`rounded-nav px-4 py-2 text-sm font-semibold transition-colors hover:bg-foreground/10 ${focus}`}
+      className="rounded-full px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-zinc-800 max-sm:hidden dark:hover:bg-zinc-300"
     >
       Sign in
     </Link>
     <Link
       href="/register"
-      className={`rounded-nav bg-cta px-4 py-2 text-sm font-semibold text-cta-foreground transition-opacity hover:opacity-90 ${focus}`}
+      className="rounded-full bg-zinc-50 px-3.5 py-1.5 text-sm font-semibold text-zinc-950 transition-opacity hover:opacity-90 dark:bg-zinc-950 dark:text-zinc-50"
     >
       Get started
     </Link>
-  </>
+  </div>
 );
 
-// Shallow ripple hanging from the bar's bottom edge (Arc-style lining).
-const scallop = "radial-gradient(ellipse 7px 5px at 50% 0, #000 98%, transparent 100%)";
-const mask = {
-  maskImage: scallop,
-  WebkitMaskImage: scallop,
-  maskSize: "14px 5px",
-  WebkitMaskSize: "14px 5px",
-  maskRepeat: "repeat-x",
-  WebkitMaskRepeat: "repeat-x",
-} as const;
+export default function Navbar({
+  brand = "Colbe",
+  actions = defaultActions,
+  children,
+}: Props) {
+  const pathname = usePathname();
+  const router = useRouter();
 
-export default function Navbar({ brand = "Colbe", actions = defaultActions }: Props) {
+  const active = items.find(
+    (item) => pathname === item.href || pathname.startsWith(`${item.href}/`)
+  );
+
+  const handleActiveChange = (id: string) => {
+    const target = items.find((item) => item.id === id);
+    if (target) router.push(target.href);
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-hover text-foreground">
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-6 md:px-10">
-        <Link href="/" className={`flex items-center gap-2.5 rounded-nav ${focus}`}>
+    <NotchNav
+      items={items}
+      activeId={active?.id ?? ""}
+      onActiveChange={handleActiveChange}
+      logo={
+        <Link href="/" className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://github.com/ColbemLLC.png"
             alt={`${brand} logo`}
-            width={32}
-            height={32}
-            className="size-8 rounded-nav"
+            width={24}
+            height={24}
+            className="size-6 rounded-md"
           />
-          <span className="font-[family-name:var(--font-instrument-serif)] text-2xl tracking-tight">
+          <span className="font-[family-name:var(--font-instrument-serif)] text-xl tracking-tight">
             {brand}
           </span>
         </Link>
-
-        <div className="flex items-center gap-2">{actions}</div>
-      </div>
-
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-[calc(100%-1px)] h-[5px] bg-hover"
-        style={mask}
-      />
-    </header>
+      }
+      rightContent={actions}
+    >
+      {children}
+    </NotchNav>
   );
 }
