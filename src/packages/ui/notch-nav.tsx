@@ -416,7 +416,7 @@ export function NotchNav({
   return (
     <div
       className={cn(
-        "fixed inset-0 h-screen w-screen overflow-hidden bg-foreground p-0 md:p-2 transition-colors duration-200",
+        "fixed inset-0 z-50 h-screen w-screen overflow-hidden bg-foreground p-0 md:p-2 transition-colors duration-200",
         className
       )}
       {...props}
