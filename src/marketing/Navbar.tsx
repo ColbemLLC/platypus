@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { BookOpen, Heart, Info } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 
-import { NotchNav, type NotchItemData } from "./notch-nav";
+import { NotchNav, type NotchItemData } from "@/packages/ui/notch-nav";
 
 type NavItem = NotchItemData & { href: string };
 
