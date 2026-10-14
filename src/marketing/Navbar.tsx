@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { BookOpen, Heart, Info } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 
-import { NotchNav, type NotchItemData } from "@/packages/ui/notch-nav";
+import { NotchNav, type NotchItemData } from "./notch-nav";
 
 type NavItem = NotchItemData & { href: string };
 
@@ -27,13 +27,13 @@ const defaultActions = (
   <div className="flex items-center gap-1">
     <Link
       href="/login"
-      className="rounded-full px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-zinc-800 max-sm:hidden dark:hover:bg-zinc-300"
+      className="rounded-full px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-background/10 max-sm:hidden"
     >
       Sign in
     </Link>
     <Link
       href="/register"
-      className="rounded-full bg-zinc-50 px-3.5 py-1.5 text-sm font-semibold text-zinc-950 transition-opacity hover:opacity-90 dark:bg-zinc-950 dark:text-zinc-50"
+      className="rounded-full bg-cta px-3.5 py-1.5 text-sm font-semibold text-cta-foreground transition-opacity hover:opacity-90"
     >
       Get started
     </Link>
