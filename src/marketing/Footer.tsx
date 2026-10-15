@@ -1,9 +1,44 @@
 import Link from "next/link";
+import {
+  BookOpen,
+  ChatsCircle,
+  Code,
+  DownloadSimple,
+  FileText,
+  Heart,
+  ShieldCheck,
+  type Icon,
+} from "@phosphor-icons/react/dist/ssr";
 
-const columns = [
-  { title: "Product", links: [["Download", "/download"], ["docs", "/docs"], ["Privacy Policy", "/privacy"], ["Terms of Use", "/terms"]] },
-  { title: "Resources", links: [["Forums", "/forums"], ["Developer Hub", "/developers"], ["Credits", "/credits"]] },
-] as const;
+type FooterLink = readonly [label: string, href: string, icon: Icon];
+
+const columns: readonly { title: string; links: readonly FooterLink[] }[] = [
+  {
+    title: "Product",
+    links: [
+      ["Download", "/download", DownloadSimple],
+      ["docs", "/docs", BookOpen],
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      ["Forums", "/forums", ChatsCircle],
+      ["Developer Hub", "/developers", Code],
+    ],
+  },
+  {
+    title: "Policies",
+    links: [
+      ["Privacy Policy", "/privacy", ShieldCheck],
+      ["Terms of Use", "/terms", FileText],
+    ],
+  },
+  {
+    title: "Acknowledgements",
+    links: [["Credits", "/credits", Heart]],
+  },
+];
 
 // Same ripple as the Navbar, flipped so it rises from the footer's top edge.
 const ripple = "radial-gradient(ellipse 7px 5px at 50% 100%, #000 98%, transparent 100%)";
@@ -34,7 +69,7 @@ export default function Footer({ brand = "Colbe" }: { brand?: string }) {
       <div aria-hidden className="absolute inset-x-0 bottom-[calc(100%-1px)] h-[5px] bg-hover" style={mask} />
 
       <div className="mx-auto flex max-w-[1400px] flex-col justify-between gap-14 px-6 py-14 md:flex-row md:px-10">
-        <div className="flex flex-col gap-10 sm:flex-row sm:gap-16">
+        <div className="flex flex-col gap-10 sm:flex-row sm:flex-wrap sm:gap-16">
           <Link href="/" aria-label={brand} className={`self-start rounded-nav ${focus}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -49,9 +84,10 @@ export default function Footer({ brand = "Colbe" }: { brand?: string }) {
             <nav key={c.title} aria-label={c.title}>
               <h2 className="text-xs font-semibold uppercase tracking-widest">{c.title}</h2>
               <ul className="mt-6 flex flex-col gap-3">
-                {c.links.map(([label, href]) => (
+                {c.links.map(([label, href, Icon]) => (
                   <li key={href}>
-                    <Link href={href} className={`rounded-sm text-sm text-foreground/80 transition-colors hover:text-foreground ${focus}`}>
+                    <Link href={href} className={`inline-flex items-center gap-2 rounded-sm text-sm text-foreground/80 transition-colors hover:text-foreground ${focus}`}>
+                      <Icon size={16} aria-hidden />
                       {label}
                     </Link>
                   </li>
