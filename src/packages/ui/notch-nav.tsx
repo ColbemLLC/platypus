@@ -613,8 +613,8 @@ export function NotchNav({
           className={cn(
             "notch-nav-viewport relative flex h-full w-full flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden",
             isBottom
-              ? "px-0 pt-3 pb-10 xl:pb-11"
-              : "px-0 pt-10 xl:pt-11 pb-3"
+              ? "px-0 pt-3 pb-10"
+              : "px-0 pt-10 pb-3"
           )}
         >
           {children}

@@ -752,7 +752,7 @@ export function GradientWave({
   return (
     <div
       ref={containerRef}
-      className={`absolute inset-0 z-0 w-full h-full overflow-hidden ${className}`}
+      className={`absolute inset-x-0 -top-10 z-0 h-[calc(100%+2.5rem)] w-full overflow-hidden ${className}`}
     />
   );
 }
