@@ -1,6 +1,6 @@
 import Link from "next/link";
 import * as motion from "motion/react-client";
-import { EtherealBeams } from "@/packages/ui/EtherealBeamsHero";
+import { TopographicWave } from "@/packages/ui/TopographicWave";
 
 const ease = [0.25, 1, 0.5, 1] as const;
 
