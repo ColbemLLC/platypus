@@ -145,3 +145,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+.notch-nav-viewport {
+  scrollbar-width: none;
+}
+
+.notch-nav-viewport::-webkit-scrollbar {
+  display: none;
+}

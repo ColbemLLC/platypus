@@ -421,7 +421,7 @@ export function NotchNav({
       )}
       {...props}
     >
-      <div className="relative flex h-full w-full flex-col rounded-none md:rounded-2xl bg-background text-foreground antialiased transition-colors duration-200">
+      <div className="relative flex h-full w-full flex-col overflow-hidden rounded-none md:rounded-2xl bg-background text-foreground antialiased transition-colors duration-200">
         <div
           aria-hidden="true"
           onClick={handleCloseDropdown}
@@ -611,8 +611,10 @@ export function NotchNav({
         {/* Scrollable Content Viewport */}
         <div
           className={cn(
-            "relative flex w-full items-center h-full justify-center overflow-y-auto overflow-x-hidden px-3 sm:px-4 md:px-6",
-            isBottom ? "pt-3 pb-17.5" : "pt-17.5 pb-3"
+            "notch-nav-viewport relative flex h-full w-full flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden",
+            isBottom
+              ? "px-0 pt-3 pb-10 xl:pb-11"
+              : "px-0 pt-10 xl:pt-11 pb-3"
           )}
         >
           {children}
