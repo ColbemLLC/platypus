@@ -27,13 +27,13 @@ const defaultActions = (
   <div className="flex items-center gap-1">
     <Link
       href="/login"
-      className="rounded-full px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-background/10 max-sm:hidden"
+      className="rounded-nav px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-background/10 max-sm:hidden"
     >
       Sign in
     </Link>
     <Link
       href="/register"
-      className="rounded-full bg-cta px-3.5 py-1.5 text-sm font-semibold text-cta-foreground transition-opacity hover:opacity-90"
+      className="rounded-nav bg-cta px-3.5 py-1.5 text-sm font-semibold text-cta-foreground transition-opacity hover:opacity-90"
     >
       Get started
     </Link>
