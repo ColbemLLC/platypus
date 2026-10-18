@@ -10,6 +10,8 @@ export const user = sqliteTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: integer("email_verified", { mode: "boolean" }).default(false).notNull(),
   image: text("image"),
+  banner: text("banner"),
+  bio: text("bio"),
   // Set during /onboarding (Better Auth username plugin). Null = onboarding not finished.
   username: text("username").unique(),
   displayUsername: text("display_username"),

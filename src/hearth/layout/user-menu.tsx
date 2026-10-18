@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/packages/db/auth/client";
-import { Avatar, Skeleton, focusRing, useMe } from "./kit";
+import { Avatar, Icon, Skeleton, focusRing, useMe } from "./kit";
 
 function Glyph({ children }: { children: ReactNode }) {
   return (
@@ -53,6 +53,11 @@ export default function UserMenu() {
 
   if (!me.ready) return <Skeleton className="h-10 w-36" />;
 
+  const profile = () => {
+    setOpen(false);
+    router.push(`/users/${id}/profile`);
+  };
+
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(id);
@@ -98,6 +103,12 @@ export default function UserMenu() {
           </div>
 
           <div className="mx-2 mb-2 rounded-nav bg-background p-1">
+            <Row onClick={profile}>
+              <span className="text-muted">
+                <Icon name="profile" />
+              </span>
+              View profile
+            </Row>
             <Row onClick={copy}>
               <span className="text-muted">
                 <Glyph>
