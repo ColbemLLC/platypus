@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db } from "@/packages/db";
 import { community, communityMember, guild, guildMember, user } from "@/packages/db/schema";
-import { Avatar, container } from "../../layout/kit";
+import { Avatar, container } from "@/hearth/layout/kit";
+import Topbar from "@/hearth/layout/Topbar";
+import Downbar from "@/hearth/layout/downbar";
+import Sidebar from "@/hearth/layout/sidebar";
 
 type Item = { id: string; name: string; image: string | null; role: string; href: string };
 
@@ -54,6 +57,13 @@ export default async function UserProfile({ username }: { username: string }) {
   const joined = u.createdAt.toLocaleDateString("en-US", { month: "long", year: "numeric" });
 
   return (
+    <div className="flex h-dvh flex-col overflow-hidden">
+      <div className="shrink-0">
+        <Topbar />
+      </div>
+      <div className="flex min-h-0 flex-1">
+        <Sidebar />
+        <main className="min-w-0 flex-1 overflow-y-auto pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
     <div className={`${container} py-6`}>
       <div className="overflow-hidden rounded-card border border-border bg-surface">
         <div className="h-40 bg-linear-to-br from-hover to-muted/60 md:h-52">
@@ -80,6 +90,12 @@ export default async function UserProfile({ username }: { username: string }) {
       <div className="mt-8 grid gap-8">
         <Section title="Communities" items={communities.map((c) => ({ ...c, href: `/user-communities/${c.id}` }))} empty="Not in any communities yet." />
         <Section title="Guilds" items={guilds.map((g) => ({ ...g, href: `/guilds/${g.id}` }))} empty="Not in any guilds yet." />
+      </div>
+    </div>
+        </main>
+      </div>
+      <div className="shrink-0">
+        <Downbar />
       </div>
     </div>
   );
