@@ -35,21 +35,21 @@ function Section({ title, items, empty }: { title: string; items: Item[]; empty:
   );
 }
 
-export default async function UserProfile({ id }: { id: string }) {
-  const [u] = await db.select().from(user).where(eq(user.id, id)).limit(1);
+export default async function UserProfile({ username }: { username: string }) {
+  const [u] = await db.select().from(user).where(eq(user.username, username.toLowerCase())).limit(1);
   if (!u) notFound();
 
   const communities = await db
     .select({ id: community.id, name: community.name, image: community.image, role: communityMember.role })
     .from(communityMember)
     .innerJoin(community, eq(community.id, communityMember.communityId))
-    .where(eq(communityMember.userId, id));
+    .where(eq(communityMember.userId, u.id));
 
   const guilds = await db
     .select({ id: guild.id, name: guild.name, image: guild.image, role: guildMember.role })
     .from(guildMember)
     .innerJoin(guild, eq(guild.id, guildMember.guildId))
-    .where(eq(guildMember.userId, id));
+    .where(eq(guildMember.userId, u.id));
 
   const joined = u.createdAt.toLocaleDateString("en-US", { month: "long", year: "numeric" });
 

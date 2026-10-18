@@ -55,7 +55,7 @@ export default function UserMenu() {
 
   const profile = () => {
     setOpen(false);
-    router.push(`/users/${id}/profile`);
+    router.push(me.username ? `/user-profile/${me.username}` : "/onboarding");
   };
 
   const copy = async () => {
