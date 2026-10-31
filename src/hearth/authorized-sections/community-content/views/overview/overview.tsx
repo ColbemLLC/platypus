@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Avatar, Icon, focusRing } from "../../../../layout/kit";
 import type { CommunityFrameData, Announcement } from "../../layout/community-frame";
 import { Divider, ViewCard, ViewMain, ViewSection } from "../../layout/view-layout";
-import { MemberGroups } from "../members/members";
+import { MemberGroups, roleEntries } from "../members/members";
 
 function AboutRow({ children, icon }: { children: string; icon: React.ReactNode }) {
   return (
@@ -19,7 +19,7 @@ function AboutRow({ children, icon }: { children: string; icon: React.ReactNode 
 export function OverviewSide({ data }: { data: CommunityFrameData }) {
   const count = data.members.length;
   return (
-    <aside className="hidden w-80 shrink-0 flex-col gap-4 overflow-y-auto p-4 xl:flex">
+    <aside className="hidden w-80 shrink-0 flex-col gap-4 overflow-y-auto border-l border-divider p-4 xl:flex">
       <ViewCard>
         <h2 className="font-(family-name:--font-instrument-serif) text-2xl tracking-tight">About</h2>
         <ul className="mt-2 divide-y divide-divider">
@@ -38,13 +38,13 @@ export function OverviewSide({ data }: { data: CommunityFrameData }) {
         </ul>
       </ViewCard>
       <ViewCard>
-        <MemberGroups members={data.members} />
+        <MemberGroups members={data.members} roles={roleEntries(data.roles)} showEmpty />
       </ViewCard>
     </aside>
   );
 }
 
-function Announcements({
+export function Announcements({
   items,
   canPost,
   onPost,
